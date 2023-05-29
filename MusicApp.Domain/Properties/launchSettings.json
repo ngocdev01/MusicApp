@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "MusicApp.Domain": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:64716;http://localhost:64717"
+    }
+  }
+}

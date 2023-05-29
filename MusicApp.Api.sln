@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Api", "MusicApp.Api\MusicApp.Api.csproj", "{569E0147-733E-44C4-9D8E-4BFCB9AAA234}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Contracts", "MusicApp.Contracts\MusicApp.Contracts.csproj", "{A3A6A1B1-84AC-4787-A53E-809E78313402}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Application", "MusicApp.Application\MusicApp.Application.csproj", "{18B3F158-4916-4697-8430-C327C1662FAA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Infrastructure", "MusicApp.Infrastructure\MusicApp.Infrastructure.csproj", "{D5FEB558-6313-4FF9-8883-8577D75A8D0E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Domain", "MusicApp.Domain\MusicApp.Domain.csproj", "{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.LocalStorage", "MusicApp.LocalStorage\MusicApp.LocalStorage.csproj", "{7BA623F9-D391-44B0-AFAE-68651343C96C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recommend", "..\ConsoleDotNet\Recommend\Recommend.csproj", "{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{569E0147-733E-44C4-9D8E-4BFCB9AAA234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{569E0147-733E-44C4-9D8E-4BFCB9AAA234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{569E0147-733E-44C4-9D8E-4BFCB9AAA234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{569E0147-733E-44C4-9D8E-4BFCB9AAA234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A6A1B1-84AC-4787-A53E-809E78313402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A6A1B1-84AC-4787-A53E-809E78313402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A6A1B1-84AC-4787-A53E-809E78313402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A6A1B1-84AC-4787-A53E-809E78313402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18B3F158-4916-4697-8430-C327C1662FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18B3F158-4916-4697-8430-C327C1662FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18B3F158-4916-4697-8430-C327C1662FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18B3F158-4916-4697-8430-C327C1662FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5FEB558-6313-4FF9-8883-8577D75A8D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5FEB558-6313-4FF9-8883-8577D75A8D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5FEB558-6313-4FF9-8883-8577D75A8D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5FEB558-6313-4FF9-8883-8577D75A8D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BA623F9-D391-44B0-AFAE-68651343C96C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BA623F9-D391-44B0-AFAE-68651343C96C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BA623F9-D391-44B0-AFAE-68651343C96C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA623F9-D391-44B0-AFAE-68651343C96C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {72B52174-7B88-4FB9-9242-C74AF2CD0D10}
+	EndGlobalSection
+EndGlobal
