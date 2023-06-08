@@ -5,15 +5,15 @@ using Microsoft.Extensions.Options;
 using MusicApp.Application.Common.Interface.Authentication;
 using MusicApp.Infrastructure.Authentication;
 using MusicApp.Infrastructure.Common.Interface.Storage;
-using MusicApp.LocalStorage.Common;
-using MusicApp.LocalStorage.Persistence;
+using MusicApp.Storage.Local.Common;
+using MusicApp.Storage.Local.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicApp.LocalStorage;
+namespace MusicApp.Storage.Local;
 
 public static class DependencyInjection
 {

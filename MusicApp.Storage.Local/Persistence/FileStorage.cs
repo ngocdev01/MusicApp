@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using MusicApp.Infrastructure.Common;
 using MusicApp.Infrastructure.Common.Interface.Storage;
-using MusicApp.LocalStorage.Common;
+using MusicApp.Storage.Local.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicApp.LocalStorage.Persistence;
+namespace MusicApp.Storage.Local.Persistence;
 
 public class FileStorage : IFileStorage
 {
@@ -21,11 +21,11 @@ public class FileStorage : IFileStorage
     {
         _path = options.Value.StoragePath;
     }
-    public FileStream GetFile(string path, FileType fileType)
+    public Stream GetFile(string path, FileType fileType)
     {
         return File.OpenRead(Path.Combine(_path, fileType.ToString(), path));
     }
-     
+
     public Task DeleteFile(string path)
     {
         if (File.Exists(path))
@@ -36,20 +36,20 @@ public class FileStorage : IFileStorage
     }
 
 
-    public FileStream Upload(string path,FileType fileType)
+    public FileStream Upload(string path, FileType fileType)
     {
         return new FileStream(Path.Combine(_path, fileType.ToString(), path), FileMode.Create);
     }
 
-    public async Task<string> UploadAsync(IFormFile file,FileType fileType, string path)
+    public async Task<string> UploadAsync(IFormFile file, FileType fileType, string path)
     {
         using (var fs = Upload(path, fileType))
         {
-            
+
             await file.CopyToAsync(fs);
             return path;
-        }              
-    }
+        }
+    } 
     public async Task DeleteAsync(string path)
     {
         await DeleteFile(path);

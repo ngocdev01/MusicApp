@@ -61,7 +61,7 @@ namespace MusicApp.Api.Controllers
             return await _albumService.GetAlbumByPlayTime(from, to, skip, take); 
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/play")]
         public async Task<IActionResult> AlbumPlayEvent(string id, string userId)
         { 
             await _albumService.AlbumPlayEvent(id, userId);

@@ -22,6 +22,8 @@ public interface IRepository<T>  where T : EntityBase
    
     Task RemoveAsync(T entity);
     Task UpdateAsync(T entity, Action<T> action);
+
+    Task SaveChangeAsync();
   
     Task GetRelatedAsync<TProperty>(T entity, Expression<Func<T, IEnumerable<TProperty>>> prop) where TProperty : class;
     Task GetAllRelatedAsync(T entity);

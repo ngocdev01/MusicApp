@@ -12,7 +12,8 @@ public interface IFileStorage
 {
     Task DeleteAsync(string path);
     Task DeleteFile(string path);
-    FileStream GetFile(string path, FileType fileType);
+    Stream GetFile(string path, FileType fileType);
     FileStream Upload(string path, FileType fileType);
     Task<string> UploadAsync(IFormFile file, FileType fileType, string path);
+    
 }

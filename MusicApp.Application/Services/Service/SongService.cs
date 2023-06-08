@@ -56,18 +56,6 @@ public class SongService : BaseService, ISongService
     }
 
 
-    public async Task UpdateSongArtist(string id, string artistId)
-    {
-        var artist = await GetEntityAsync(_artistRepository, artistId);
-        var song = await GetEntityAsync(_songRepository, id);
-        await _songRepository.UpdateAsync(song, song =>
-        {
-            if (!song.Artists.Contains(artist))
-            {
-                song.Artists.Add(artist);
-            }
-        });
-    }
 
     public async Task UpdateSongCount(string id, int count)
     {
@@ -77,11 +65,7 @@ public class SongService : BaseService, ISongService
 
 
 
-    public async Task UpdateSongName(string id, string name)
-    {
-        var song = await GetEntityAsync(_songRepository, id);
-        await _songRepository.UpdateAsync(song, s => s.Name = name);
-    }
+
 
     public async Task<SongResult> GetSongById(string id)
     {
@@ -90,18 +74,6 @@ public class SongService : BaseService, ISongService
     }
 
 
-    public async Task UpdateSongAlbum(string id, string albumId)
-    {
-        var song = await GetEntityAsync(_songRepository, id);
-        var album = await GetEntityAsync(_albumRepository, albumId);
-        await _songRepository.UpdateAsync(song, song =>
-        {
-            if (!song.Albums.Contains(album))
-            {
-                song.Albums.Add(album);
-            }
-        });
-    }
 
     public async Task<SongResult> CreateSong(string name,
                                        string album,
@@ -153,15 +125,15 @@ public class SongService : BaseService, ISongService
     {
         var user = await GetEntityAsync(_userRepository, userId);
         var song = await GetEntityAsync(_songRepository, id);
-        await _songRepository.UpdateAsync(song, s => 
-        { 
-            s.UserSongEvents.Add(new UserSongEvent() 
-            { 
-                SongId = id, 
-                UserId = userId, 
-                Time = DateTime.Now 
-            }); 
-            s.Count += 1; 
+        await _songRepository.UpdateAsync(song, s =>
+        {
+            s.UserSongEvents.Add(new UserSongEvent()
+            {
+                SongId = id,
+                UserId = userId,
+                Time = DateTime.Now
+            });
+            s.Count += 1;
         });
 
     }
@@ -190,7 +162,41 @@ public class SongService : BaseService, ISongService
 
     public Task<IEnumerable<SongInfo>> GetTopPlay(DateTime? from, DateTime? to, int? top)
     {
-        throw new NotImplementedException();   
-        
+        throw new NotImplementedException();
+
+    }
+
+    public async Task UpdateSong(string id, string name, string album, string[] artists, string[]? genres, IFormFile? audio)
+    {
+        var song = await GetEntityAsync(_songRepository, id);
+        var songAlbum = await GetEntityAsync(_albumRepository, album);
+
+        List<Artist> artistList = new();
+        foreach (var artist in artists)
+        {
+            artistList.Add(await GetEntityAsync(_artistRepository, artist));
+        }
+
+        song.Name = name;
+        song.Artists = artistList;
+        song.Albums = new List<Album>() { songAlbum };
+
+
+        if (genres != null)
+        {
+            List<Genre> genreList = new();
+            foreach (var genre in genres)
+            {
+                genreList.Add(await GetEntityAsync(_genreRepository, genre));
+            }
+            song.Genres = genreList;
+        }
+        if (audio != null)
+        {
+            var audioSource = await _fileRepository.UploadAudioAsync(audio);
+            song.Source = audioSource;
+        }
+
+        await _songRepository.SaveChangeAsync();
     }
 }

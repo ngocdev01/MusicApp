@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Domain", "MusicApp.Domain\MusicApp.Domain.csproj", "{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.LocalStorage", "MusicApp.LocalStorage\MusicApp.LocalStorage.csproj", "{7BA623F9-D391-44B0-AFAE-68651343C96C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recommend", "..\ConsoleDotNet\Recommend\Recommend.csproj", "{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Storage.Local", "MusicApp.Storage.Local\MusicApp.Storage.Local.csproj", "{8C0D0F7D-BA46-48F8-8A1E-B59C4A091789}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Storage.Cloud", "MusicApp.Storage.Cloud\MusicApp.Storage.Cloud.csproj", "{65CDE5F1-ACD9-4918-9D65-ABFD2DA3E045}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +45,18 @@ Global
 		{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF6AC12A-F57D-4FFF-9ED5-B864AAFACFD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BA623F9-D391-44B0-AFAE-68651343C96C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BA623F9-D391-44B0-AFAE-68651343C96C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BA623F9-D391-44B0-AFAE-68651343C96C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BA623F9-D391-44B0-AFAE-68651343C96C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBEC9C8C-3164-4CAB-8293-DA9CD538284F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0D0F7D-BA46-48F8-8A1E-B59C4A091789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0D0F7D-BA46-48F8-8A1E-B59C4A091789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0D0F7D-BA46-48F8-8A1E-B59C4A091789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0D0F7D-BA46-48F8-8A1E-B59C4A091789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65CDE5F1-ACD9-4918-9D65-ABFD2DA3E045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65CDE5F1-ACD9-4918-9D65-ABFD2DA3E045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65CDE5F1-ACD9-4918-9D65-ABFD2DA3E045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65CDE5F1-ACD9-4918-9D65-ABFD2DA3E045}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

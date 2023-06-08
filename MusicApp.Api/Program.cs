@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using MusicApp.Api.Common.Attribute;
 using MusicApp.Api.Common.Errors;
 using MusicApp.Api.Errors;
 using MusicApp.Api.MiddleWare;
 using MusicApp.Application;
 using MusicApp.Infrastructure;
-using MusicApp.LocalStorage;
+using MusicApp.Storage.Cloud;
+using MusicApp.Storage.Local;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -17,26 +19,26 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-builder.Services.AddCors(options =>
-    {
-        options.AddPolicy(name: MyAllowSpecificOrigins,
-                          policy =>
-                          {
-                              policy.AllowAnyOrigin()
-                              .AllowAnyHeader()
-                              .AllowAnyMethod();
-                          });
-    });
+    builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: MyAllowSpecificOrigins,
+                              policy =>
+                              {
+                                  policy.AllowAnyOrigin()
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod();
+                              });
+        });
 
     builder.Services.AddControllers(options =>
     {
         options.Filters.Add<HttpResponseExceptionFilter>();
     });
 
-   
+
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    
+
     builder.Services.AddSwaggerGen(c =>
     {
 
@@ -67,7 +69,17 @@ builder.Services.AddCors(options =>
 
     builder.Services.AddApplication()
                     .AddInfrastructure(builder.Configuration)
-                    .AddLocalStorage(builder.Configuration);
+                    .AddSingleton<StorageMode>();
+
+
+    if (builder.Configuration.GetValue<bool>("Storage:CloudMode"))
+    {
+        builder.Services.AddCloudStorage(builder.Configuration);
+    }
+    else
+    {
+        builder.Services.AddLocalStorage(builder.Configuration);
+    }
     //builder.Services.AddSingleton<ProblemDetailsFactory, MusicAppProblemDetailsFactory>();
 }
 var app = builder.Build();
@@ -81,13 +93,13 @@ var app = builder.Build();
         app.UseSwaggerUI();
     }
 
-  
+
     app.UseHttpsRedirection();
 
     app.UseAuthentication();
 
     app.UseAuthorization();
-    
+
     app.MapControllers();
 
     app.Run();

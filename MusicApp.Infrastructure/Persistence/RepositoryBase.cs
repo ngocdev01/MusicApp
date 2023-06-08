@@ -117,4 +117,9 @@ public  class RepositoryBase<T> : IRepository<T> where T : EntityBase
     {
         return await _dbSet.Where(func).Skip(skip).Take(take).ToListAsync();
     }
+
+    public async Task SaveChangeAsync()
+    {
+        await _musicContext.SaveChangesAsync();
+    }
 }

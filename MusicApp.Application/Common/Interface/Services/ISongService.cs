@@ -13,21 +13,24 @@ namespace MusicApp.Application.Common.Interface.Services;
 
 public interface ISongService
 {
-    public Task<IEnumerable<SongResult>> Recommend(params string[] id);
-    public Task<SongResult> GetSongById(string id);
-    public Task<SongResult> AddSong(Song song);
-    public Task<SongResult> GetSongByName(string name);
-    public Task<IEnumerable<SongResult>> GetAll();
-    public Task DeleteSongById(string id);
-    public Task UpdateSongName(string id,string name);
-    public Task UpdateSongAlbum(string id,string albumId);
-    public Task UpdateSongArtist(string id,string artistId);
-    public Task UpdateSongCount(string id,int count);
-    public Task<SongResult> CreateSong(string name,
+    Task<IEnumerable<SongResult>> Recommend(params string[] id);
+    Task<SongResult> GetSongById(string id);
+    Task<SongResult> AddSong(Song song);
+    Task<SongResult> GetSongByName(string name);
+    Task<IEnumerable<SongResult>> GetAll();
+    Task DeleteSongById(string id);
+    Task UpdateSongCount(string id,int count);
+    Task<SongResult> CreateSong(string name,
                                        string album,
                                        string[] artist,
                                        string[]? genre,
                                        IFormFile audio);
+    Task UpdateSong(string id,
+                    string name,
+                    string album,
+                    string[] artist,
+                    string[]? genre,
+                    IFormFile? audio);
     Task SongPlayEvent(string id, string userId);
     Task<IEnumerable<string>> GetUsers(string id);
     Task<IEnumerable<SongInfo>> GetTopPlay(DateTime? from, DateTime? to, int? top);

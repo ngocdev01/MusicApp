@@ -74,14 +74,13 @@ public class AdminService : IAdminService
     public async Task<IEnumerable<KeyValuePair<DateTime, int>>> GetPlayTimeChart(DateTime from, DateTime to)
     {
         var data = new List<KeyValuePair<DateTime,int>>();
-
         for (var dt = from; dt <= to; dt = dt.AddMonths(1))
         {
             data.Add(new (dt,0));
         }
 
         var chart = _songEventRepository.GetQuery()
-            .Where(e => e.Time >= from && e.Time <= to)
+            .Where(e => e.Time >= from && e.Time <= to.AddDays(1))
             .GroupBy(e => new {Month  = e.Time.Month, Year = e.Time.Year})
             .Select(e => new KeyValuePair<DateTime, int>(new DateTime(e.Key.Year,e.Key.Month,1), e.Count()));
         var res = await _songEventRepository.GetListAsync(chart);

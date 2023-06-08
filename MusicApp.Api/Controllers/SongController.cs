@@ -58,7 +58,7 @@ public class SongController : ControllerBase
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}/play")]
     public async Task<IActionResult> SongPlayEvent(string id, string userId)
     {
 
@@ -66,7 +66,15 @@ public class SongController : ControllerBase
         return Ok();
 
     }
-    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateSong(string id, UpdateSongRequest request)
+    {
+
+        await _songService.UpdateSong(id, request.songName, request.album, request.artists, request.genres, request.songAudio);
+        return Ok();
+
+    }
+
     [HttpGet("top")]
     public async Task<IEnumerable<SongInfo>> TopSong([FromQuery]GetTopPlayRequest query)
     {

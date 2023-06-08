@@ -5,6 +5,7 @@ using MusicApp.Infrastructure.Common;
 using MusicApp.Infrastructure.Common.Interface.Storage;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 
 namespace MusicApp.Infrastructure.Persistence;
@@ -16,12 +17,12 @@ public class FileRepository : IFileRepository
     {
         _storage = fileStorage;
     }
-    public FileStream GetAudio(string id)
+    public Stream GetAudio(string id)
     {
         return _storage.GetFile(id,FileType.Audio);
     }
 
-    public FileStream GetImage(string id)
+    public Stream GetImage(string id)
     {
         return _storage.GetFile(id, FileType.Image);
     }

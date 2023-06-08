@@ -1,6 +1,6 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
-
+using MusicApp.Api.Common.Attribute;
 using MusicApp.Application.Common.Interface.Persistence;
 
 
@@ -8,6 +8,7 @@ namespace MusicApp.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[ServiceFilter(typeof(StorageMode))]
 public class ImageController : ControllerBase
 {
     private readonly IFileRepository _fileRepository;

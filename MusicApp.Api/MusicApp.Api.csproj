@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -14,7 +14,8 @@
     <ProjectReference Include="..\MusicApp.Application\MusicApp.Application.csproj" />
     <ProjectReference Include="..\MusicApp.Contracts\MusicApp.Contracts.csproj" />
     <ProjectReference Include="..\MusicApp.Infrastructure\MusicApp.Infrastructure.csproj" />
-    <ProjectReference Include="..\MusicApp.LocalStorage\MusicApp.LocalStorage.csproj" />
+    <ProjectReference Include="..\MusicApp.Storage.Cloud\MusicApp.Storage.Cloud.csproj" />
+    <ProjectReference Include="..\MusicApp.Storage.Local\MusicApp.Storage.Local.csproj" />
   </ItemGroup>
 
 </Project>
