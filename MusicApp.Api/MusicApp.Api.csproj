@@ -9,8 +9,12 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
+	<ItemGroup>
+		<None Include="app.yaml" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MusicApp.Algorithm\MusicApp.Algorithm.csproj" />
     <ProjectReference Include="..\MusicApp.Application\MusicApp.Application.csproj" />
     <ProjectReference Include="..\MusicApp.Contracts\MusicApp.Contracts.csproj" />
     <ProjectReference Include="..\MusicApp.Infrastructure\MusicApp.Infrastructure.csproj" />

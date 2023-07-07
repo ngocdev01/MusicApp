@@ -9,5 +9,5 @@ public record CreateSongRequest
     string[] artists,
     string album,
     string[]? genres,
-    IFormFile songAudio   
+    string songAudio   
 );

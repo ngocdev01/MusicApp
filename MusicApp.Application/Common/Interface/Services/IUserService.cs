@@ -13,7 +13,7 @@ public interface IUserService
 { 
     Task<UserInfo> GetUser(string id);
     Task<IEnumerable<AlbumInfo>> GetBestAlbumInMonth(string id);
-    Task<IEnumerable<SongResult>> GetBestSongInMonth(string id);
+    Task<IEnumerable<SongResult>> GetBestSongInMonth(string id,int? skip,int? take);
     Task<IEnumerable<UserInfo>> GetAll();
     Task CreateUser(UserInfo userInfo);
 

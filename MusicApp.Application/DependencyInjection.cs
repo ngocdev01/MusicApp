@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddScoped<ISearchService, SearchService>();
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddSingleton<IFileStorageService, FileStorageService>();
         return services;
     }
 }

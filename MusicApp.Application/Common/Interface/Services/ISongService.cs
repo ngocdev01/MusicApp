@@ -24,14 +24,15 @@ public interface ISongService
                                        string album,
                                        string[] artist,
                                        string[]? genre,
-                                       IFormFile audio);
+                                       string audio);
     Task UpdateSong(string id,
                     string name,
                     string album,
                     string[] artist,
                     string[]? genre,
-                    IFormFile? audio);
+                    string? audio);
     Task SongPlayEvent(string id, string userId);
     Task<IEnumerable<string>> GetUsers(string id);
     Task<IEnumerable<SongInfo>> GetTopPlay(DateTime? from, DateTime? to, int? top);
+
 }

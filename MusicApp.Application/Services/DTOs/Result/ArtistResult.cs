@@ -1,4 +1,5 @@
-﻿using MusicApp.Application.Services.DTOs.ObjectInfo;
+﻿using MusicApp.Application.Common.Interface.Persistence;
+using MusicApp.Application.Services.DTOs.ObjectInfo;
 using MusicApp.Domain.Common.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,12 @@ namespace MusicApp.Application.Services.DTOs.Result;
 public record ArtistResult
 {
     public ArtistInfo Artist { get; set; }
-    public ICollection<SongInfo> Songs { get; set; }
+    public ICollection<SongResult> Songs { get; set; }
     public ICollection<AlbumInfo> Albums { get; set; }
-    public ArtistResult(Artist artist)
+    public ArtistResult(Artist artist,IFileStorageAdapter adapter)
     {
         Artist = new ArtistInfo(artist);
-        Songs = artist.Songs.Select(song => new SongInfo(song)).ToList();
-        Albums = artist.Albums.Select(album => new AlbumInfo(album)).ToList();
+        Songs = artist.Songs.Select(song => new SongResult(song,adapter)).ToList();
+        Albums = artist.Albums.Select(album => new AlbumInfo(album,adapter)).ToList();
     }
 }

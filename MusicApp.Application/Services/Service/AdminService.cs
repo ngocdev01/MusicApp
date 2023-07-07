@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MusicApp.Application.Common.Interface.Algorithm;
 using MusicApp.Application.Common.Interface.Persistence;
 using MusicApp.Application.Common.Interface.Services;
 using MusicApp.Application.Services.DTOs.ObjectInfo;
+using MusicApp.Application.Services.DTOs.Result;
 using MusicApp.Domain.Common.Entities;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ public class AdminService : IAdminService
     private readonly IRepository<User> _userRepository;
     private readonly IRepository<Role> _roleRepository;
     private readonly IRepository<UserSongEvent> _songEventRepository;
+    private readonly IClustering _clustering;
 
     public AdminService(IRepository<Song> songRepositoy,
                         IRepository<Artist> artistRepositoy,
@@ -29,7 +32,8 @@ public class AdminService : IAdminService
                         IRepository<Playlist> playlistRepositoy,
                         IRepository<User> userRepository,
                         IRepository<UserSongEvent> songEventRepository,
-                        IRepository<Role> roleRepository)
+                        IRepository<Role> roleRepository,
+                        IClustering clustering)
     {
         _songRepositoy = songRepositoy;
         _artistRepositoy = artistRepositoy;
@@ -38,8 +42,19 @@ public class AdminService : IAdminService
         _userRepository = userRepository;
         _songEventRepository = songEventRepository;
         _roleRepository = roleRepository;
+        _clustering = clustering;
     }
 
+    public AppInfomationResult GetAppInfomationResult()
+    {
+        var songs = _songRepositoy.GetQuery().Count();
+        var albums = _albumRepositoy.GetQuery().Count();
+        var artists = _artistRepositoy.GetQuery().Count();
+        var playlists = _playlistRepositoy.GetQuery().Count();
+        var users = _userRepository.GetQuery().Count();
+        var playTime = _songEventRepository.GetQuery().Count();
+        return new AppInfomationResult(songs, albums, artists, playlists, playTime, users);
+    }
 
     public async Task<IEnumerable<KeyValuePair<DateTime, int>>> GetPlayTimeChart(DateTime month)
     {
@@ -103,5 +118,16 @@ public class AdminService : IAdminService
     public async Task<IEnumerable<RoleInfo>> Roles()
     {
         return (await _roleRepository.GetAll()).Select(r => new RoleInfo(r));
+    }
+
+    public async Task<ModelTrainResult> TrainModel(int clusterNumber)
+    {
+        var list =await _clustering.TrainModel(clusterNumber);
+        var clusters = list.ClusterResult.Select(i => new ClusterTrainResult(i.Id, i.PredictedClusterId, i.Distances));
+        var res = new ModelTrainResult(clusters.ToList(),
+                                    list.Metrics.AverageDistance,
+                                    list.Metrics.DaviesBouldinIndex);
+        return res;
+      
     }
 }

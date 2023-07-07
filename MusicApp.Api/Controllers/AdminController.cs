@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.Application.Common.Interface.Services;
 using MusicApp.Application.Services.DTOs.ObjectInfo;
+using MusicApp.Application.Services.DTOs.Result;
 using MusicApp.Contracts.Request;
 
 namespace MusicApp.Api.Controllers
@@ -60,6 +61,16 @@ namespace MusicApp.Api.Controllers
         {
             await _userService.CreateUser(userInfo);
             return NoContent();       
+        }
+        [HttpGet]
+        public AppInfomationResult GetInfo()
+        {
+            return _adminService.GetAppInfomationResult();
+        }
+        [HttpGet("train")]
+        public async Task<ModelTrainResult> TrainModel(int clusterNumber)
+        {
+            return await _adminService.TrainModel(clusterNumber);
         }
 
     }

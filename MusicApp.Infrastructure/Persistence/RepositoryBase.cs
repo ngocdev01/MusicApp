@@ -29,7 +29,7 @@ public  class RepositoryBase<T> : IRepository<T> where T : EntityBase
 
     public async Task RemoveAsync(string id)
     {
-        _dbSet.RemoveRange(_dbSet.Where(entity => entity.Id == id));
+        _dbSet.RemoveRange(_dbSet.Where(entity => entity.Id.Equals(id)));
         await _musicContext.SaveChangesAsync();
     }
 

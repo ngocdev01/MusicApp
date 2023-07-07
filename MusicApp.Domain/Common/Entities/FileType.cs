@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicApp.Infrastructure.Common;
+namespace MusicApp.Domain.Common.Entities;
 
 public enum FileType
 {
     Audio,
     Image,
+    Model,
 }

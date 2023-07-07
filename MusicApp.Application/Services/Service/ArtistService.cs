@@ -18,11 +18,13 @@ public class ArtistService : BaseService, IArtistService
 {
     private readonly IRepository<Artist> _artistRepository;
     private readonly IFileRepository _fileRepository;
+    private readonly IFileStorageAdapter _fileStorageAdapter;
 
-    public ArtistService(IRepository<Artist> artistRepository, IFileRepository fileRepository)
+    public ArtistService(IRepository<Artist> artistRepository, IFileRepository fileRepository,IFileStorageAdapter fileStorageAdapter)
     {
         _artistRepository = artistRepository;
         _fileRepository = fileRepository;
+        _fileStorageAdapter = fileStorageAdapter;
     }
 
     public async Task<ArtistResult> CreateArtist(string name, IFormFile? image, IFormFile? background)
@@ -51,7 +53,7 @@ public class ArtistService : BaseService, IArtistService
         }
 
             
-        return new ArtistResult(artist);
+        return new ArtistResult(artist,_fileStorageAdapter);
     }
 
     public async Task<ArtistResult> GetArtist(string id)
@@ -59,29 +61,29 @@ public class ArtistService : BaseService, IArtistService
         var artist = await GetEntityAsync(_artistRepository, id);
         
   
-        return new ArtistResult(artist);
+        return new ArtistResult(artist,_fileStorageAdapter);
     }
 
 
     public async Task<IEnumerable<ArtistResult>> GetArtists(Expression<Func<Artist, bool>> expression)
     {
         var artists = await _artistRepository.WhereAsync(expression);
-        return artists.Select(artist => new ArtistResult(artist)); 
+        return artists.Select(artist => new ArtistResult(artist,_fileStorageAdapter)); 
     }
     public async Task<IEnumerable<ArtistResult>> GetAll()
     {
         var artists =  await _artistRepository.GetAll();
-        return artists.Select(artist => new ArtistResult(artist));
+        return artists.Select(artist => new ArtistResult(artist, _fileStorageAdapter));
     }
 
     public async Task<ArtistResult> GetArtist(Expression<Func<Artist, bool>> expression)
     {
         ;
-        return new ArtistResult(await GetEntityAsync(_artistRepository, expression));
+        return new ArtistResult(await GetEntityAsync(_artistRepository, expression),_fileStorageAdapter);
     }
 
     public async Task<ArtistResult> GetArtistByName(string name)
     { 
-        return new ArtistResult(await GetEntityAsync(_artistRepository,artist => artist.Name == name));
+        return new ArtistResult(await GetEntityAsync(_artistRepository,artist => artist.Name == name),_fileStorageAdapter);
     }
 }

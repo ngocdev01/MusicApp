@@ -1,4 +1,5 @@
-﻿using MusicApp.Domain.Common.Entities;
+﻿using MusicApp.Application.Common.Interface.Persistence;
+using MusicApp.Domain.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,8 @@ public record SongInfo(string id,
     string source,
     int count)
 {
-    public SongInfo(Song song) : this(song.Id, song.Name, song.Source, song.Count) { }
+    public SongInfo(Song song, IFileStorageAdapter adapter) : this(song.Id,
+                                                                   song.Name,
+                                                                   adapter.GetFileUrl(FileType.Audio, song.Source),
+                                                                   song.Count) { }
 }

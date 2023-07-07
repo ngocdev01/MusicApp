@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.Application.Common.Interface.Persistence;
 using MusicApp.Application.Common.Interface.Services;
@@ -10,6 +11,7 @@ namespace MusicApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PlaylistController : ControllerBase
     {
         private readonly IPlaylistService _playlistService;
@@ -45,13 +47,19 @@ namespace MusicApp.Api.Controllers
             return await _playlistService.UpdatePlaylist(request.id, request.name, request.image);
 
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePlaylist(string id)
+        {
+            await _playlistService.RemovePlaylist(id);
+            return Ok();
+        }
         [HttpGet]
-        public async Task<IEnumerable<PlaylistResult>> GetPlaylistByOwner([FromQuery] string ownerId)
+        public async Task<IEnumerable<PlaylistInfo>> GetPlaylistByOwner([FromQuery] string ownerId)
         {
             return await _playlistService.GetByOwner(ownerId);
         }
         [HttpGet("all")]
-        public async Task<IEnumerable<PlaylistResult>> GetAll()
+        public async Task<IEnumerable<PlaylistInfo>> GetAll()
         {
             return await _playlistService.GetAll();
         }
@@ -60,6 +68,12 @@ namespace MusicApp.Api.Controllers
         public async Task<PlaylistResult> AddSongToPlaylist(string id, string songId)
         {
             return await _playlistService.AddSongToPlaylist(id, songId);
+        }
+        [HttpDelete("{id}/{songId}")]
+        public async Task<IActionResult> DeletePlayListSong(string id, string songId)
+        {
+            await _playlistService.RemoveSongFromPlaylist(id, songId);
+            return Ok();
         }
 
         [HttpPut("{id}")]

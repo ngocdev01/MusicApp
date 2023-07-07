@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Storage;
 using MusicApp.Application.Common.Interface.Persistence;
-using MusicApp.Infrastructure.Common;
+using MusicApp.Domain.Common.Entities;
 using MusicApp.Infrastructure.Common.Interface.Storage;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -27,22 +27,56 @@ public class FileRepository : IFileRepository
         return _storage.GetFile(id, FileType.Image);
     }
 
-    public Task<string> UploadImageAsync(IFormFile file)
+    public async Task<string> UploadImageAsync(IFormFile file)
     {
-        string guid = Guid.NewGuid().ToString();
-        var path  = guid + Path.GetExtension(file.FileName);
-
-        return _storage.UploadAsync(file,FileType.Image, path);
+        using (var ms = new MemoryStream())
+        {
+            string guid = Guid.NewGuid().ToString();
+            var path = guid + Path.GetExtension(file.FileName);
+            await file.CopyToAsync(ms);
+            return await _storage.UploadAsync(ms,FileType.Image, path);
+        }
     }
-    public Task<string> UploadAudioAsync(IFormFile file)
+    public async Task<string> UploadAudioAsync(IFormFile file)
     {
-        string guid = Guid.NewGuid().ToString();
-        var path = guid + Path.GetExtension(file.FileName);
-        return _storage.UploadAsync(file,FileType.Audio, path);  
+        using (var ms = new MemoryStream())
+        {
+            string guid = Guid.NewGuid().ToString();
+            var path = guid + Path.GetExtension(file.FileName);
+            await file.CopyToAsync(ms);
+            return await _storage.UploadAsync(ms, FileType.Audio, path);
+        }
     }
 
     public async Task DeleteAsync(string path)
     {
         await _storage.DeleteAsync(path);
+    }
+
+    public Task<string> GetFileName(FileType fileType, string fileName)
+    {
+        return _storage.GetFileName(fileName,fileType);
+    }
+
+    public async Task DeleteAsync(FileType fileType, string fileName)
+    {
+       var path = await _storage.GetFilePath(fileName,fileType);
+       await _storage.DeleteAsync(path);
+
+    }
+
+    public async Task<string> GetFilePath(FileType fileType, string fileName)
+    {
+        return await _storage.GetFilePath(fileName, fileType);
+    }
+
+    public async Task<string> UploadAsync(FileType fileType,Stream fileStream, string fileName)
+    {
+        return await _storage.UploadAsync(fileStream, fileType, fileName);
+    }
+
+    public async Task<string> DownloadAsync(FileType fileType, Stream fileStream, string fileName)
+    {
+        return await _storage.DownloadAsync(fileStream, fileType, fileName);
     }
 }

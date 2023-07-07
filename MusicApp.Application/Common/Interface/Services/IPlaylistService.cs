@@ -13,14 +13,15 @@ public interface IPlaylistService
 {
     
     Task AddPlaylist(string name, string ownerId);
-    Task<PlaylistInfo> Create(string name, string ownerId,IFormFile? file);
+    Task<PlaylistInfo> Create(string name, string ownerId,string? file);
     Task<PlaylistResult> GetPlaylist(string id);
-    Task<IEnumerable<PlaylistResult>> GetByOwner(string id);
+    Task<IEnumerable<PlaylistInfo>> GetByOwner(string id);
     Task RemovePlaylist(string id);
-    Task<PlaylistResult> UpdatePlaylist(string id, string name,IFormFile? image);
+    Task<PlaylistResult> UpdatePlaylist(string id, string? name,string? image);
+    Task<PlaylistResult> RemoveSongFromPlaylist(string id, string songId);
     Task<PlaylistInfo> AddPlayListBySong(string ownerId,string songId);
     Task SetPlayListImage(string name, string ownerId);
-    Task<IEnumerable<PlaylistResult>> GetAll();
+    Task<IEnumerable<PlaylistInfo>> GetAll();
     Task<PlaylistResult> AddSongToPlaylist(string playlistId, string songId);
     Task PlaylistPlayEvent(string id, string userId);
 }

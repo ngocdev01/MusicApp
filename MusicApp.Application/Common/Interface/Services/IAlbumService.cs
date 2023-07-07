@@ -13,9 +13,11 @@ namespace MusicApp.Application.Common.Interface.Services;
 public interface IAlbumService
 {
     public Task<AlbumResult> GetAlbum(string id);
-    public Task<IEnumerable<AlbumResult>> GetAll();
+    public Task DeleteAlbum(string id);
+
+    public Task<IEnumerable<AlbumInfo>> GetAll();
     public Task<AlbumResult> GetAlbumByName(string name);
-    public Task<AlbumResult> CreateAlbum(string Name, string[]? artists, IFormFile? image);
+    public Task<AlbumResult> CreateAlbum(string Name, string[]? artists, string? image);
     public Task AddAlbum(Album album);
     public Task<IEnumerable<AlbumResult>> GetSongsByAlbum(string albumId);
     public Task<IEnumerable<AlbumInfo>> GetTopAlbum(int top,string? orderBy);

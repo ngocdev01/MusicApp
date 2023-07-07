@@ -41,10 +41,17 @@ namespace MusicApp.Api.Controllers
             return await _albumService.GetTopAlbum(top,orderBy);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAlbum(string id)
+        {
+            await _albumService.DeleteAlbum(id);
+            return Ok();
+        }
+
 
 
         [HttpGet("all")]
-        public async Task<IEnumerable<AlbumResult>> GetAll()
+        public async Task<IEnumerable<AlbumInfo>> GetAll()
         {
             return await _albumService.GetAll();       
         }

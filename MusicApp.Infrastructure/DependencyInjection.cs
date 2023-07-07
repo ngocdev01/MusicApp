@@ -22,10 +22,21 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
+
+        string? conString;
+        if (configuration.GetValue<bool>("Storage:CloudMode"))
+        {
+            conString = configuration.GetConnectionString("Cloud");
+        }
+        else
+        {
+            conString = configuration.GetConnectionString("Local");
+        }
+
+        if (string.IsNullOrEmpty(conString))
+            throw new ArgumentNullException("Connection String is NULL");
         services.AddDbContext<MusicContext>(
-            options => options.UseLazyLoadingProxies().UseSqlServer("Data Source=(local)\\SQLEXPRESS;Initial " +
-                              "Catalog=Music;Integrated Security=True;TrustServerCertificate=True"));
-      
+           options => options.UseLazyLoadingProxies().UseSqlServer(conString));
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddRepository();
         services.AddAuth(configuration);
@@ -44,6 +55,7 @@ public static class DependencyInjection
         services.AddScoped<IRepository<UserSongEvent>, RepositoryBase<UserSongEvent>>();
         services.AddScoped<IRepository<UserAlbumEvent>, RepositoryBase<UserAlbumEvent>>();
         services.AddScoped<IRepository<UserPlaylistEvent>, RepositoryBase<UserPlaylistEvent>>();
+        services.AddScoped<IRepository<SongData>, RepositoryBase<SongData>>();
         return services;
     }
     public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)

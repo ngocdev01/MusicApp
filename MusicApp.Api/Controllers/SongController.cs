@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicApp.Application.Common.Interface.Persistence;
 using MusicApp.Application.Common.Interface.Services;
 using MusicApp.Application.Services.DTOs.ObjectInfo;
@@ -14,7 +15,8 @@ namespace MusicApp.Api.Controllers;
 public class SongController : ControllerBase
 {
     private readonly ISongService _songService;
-   
+
+
 
     public SongController(ISongService songService)
     {
@@ -47,7 +49,7 @@ public class SongController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<SongResult> AddSong([FromForm]CreateSongRequest request)
+    public async Task<SongResult> AddSong([FromForm] CreateSongRequest request)
     {
 
         return await _songService.CreateSong(request.songName.Trim(),
@@ -75,6 +77,7 @@ public class SongController : ControllerBase
 
     }
 
+
     [HttpGet("top")]
     public async Task<IEnumerable<SongInfo>> TopSong([FromQuery]GetTopPlayRequest query)
     {
@@ -85,6 +88,6 @@ public class SongController : ControllerBase
     public async Task<IActionResult> DeleteSong(string id)
     {
         await _songService.DeleteSongById(id);
-        return NoContent();
+        return Ok();
     }
 }

@@ -15,29 +15,27 @@ using Google.Cloud.Storage.V1;
 using Google.Apis.Auth.OAuth2;
 using System.Text.Encodings.Web;
 using System.Security.AccessControl;
+using MusicApp.Domain.Common.Entities;
 
 namespace MusicApp.Storage.Cloud.Persistence;
 
 public class FileStorage : IFileStorage
 {
     private readonly string? _path = "Data";
+    private readonly string bucketName;
     private readonly StorageClient storageClient;
     private readonly GoogleCredential? credential;
     private readonly UrlSigner? urlSigner;
     public FileStorage(IOptions<CloudStorageSettings> options)
     {
-        
-        var defaultCredential = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
-        if (!string.IsNullOrEmpty(defaultCredential))
-            storageClient = StorageClient.Create();
-        else
-        {
-            byte[] credentialsBytes = Convert.FromBase64String(options.Value.Credential);
-            var json = Encoding.UTF8.GetString(credentialsBytes);
-            credential = GoogleCredential.FromJson(json);
-            urlSigner = UrlSigner.FromCredential(credential);
-            storageClient = StorageClient.Create(credential);
-        }
+
+        byte[] credentialsBytes = Convert.FromBase64String(options.Value.Credential);
+        var json = Encoding.UTF8.GetString(credentialsBytes);
+        bucketName = options.Value.Bucket;
+        credential = GoogleCredential.FromJson(json);
+        urlSigner = UrlSigner.FromCredential(credential);
+        storageClient = StorageClient.Create(credential);
+
     }
     public Stream GetFile(string path, FileType fileType)
     {
@@ -65,13 +63,25 @@ public class FileStorage : IFileStorage
         throw new NotImplementedException();
     }
 
-    public async Task<string> UploadAsync(IFormFile file,FileType fileType, string path)
+    public async Task<string> UploadAsync(Stream file,FileType fileType, string fileName)
     {
-        throw new NotImplementedException();
+        await storageClient.UploadObjectAsync(bucketName,
+                                              string.Concat(_path, "/", fileType.ToString().ToLower(), "/", fileName),
+                                              null,
+                                              file);
+        return fileName;
+    }
+    public async Task<string> DownloadAsync(Stream file, FileType fileType, string fileName)
+    {
+        await storageClient.DownloadObjectAsync(bucketName,
+                                                string.Concat(_path, "/", fileType.ToString().ToLower(), "/", fileName),
+                                                file);
+        return fileName;
     }
     public async Task DeleteAsync(string path)
     {
-        throw new NotImplementedException();
+        var obj = await storageClient.GetObjectAsync(bucketName,path);
+        await storageClient.DeleteObjectAsync(obj);
     }
 
     public IEnumerable<string> GetObjects()
@@ -82,4 +92,14 @@ public class FileStorage : IFileStorage
         }
     }
 
+    public async Task<string> GetFileName(string path, FileType fileType)
+    {
+        var file = await storageClient.GetObjectAsync(bucketName, String.Concat(_path, "/", fileType.ToString().ToLower(), "/", path));
+        return file.Name;
+    }
+
+    public async Task<string> GetFilePath(string fileName, FileType fileType)
+    {      
+        return await Task.FromResult(String.Concat(_path, "/", fileType.ToString().ToLower(), "/", fileName));
+    }
 }

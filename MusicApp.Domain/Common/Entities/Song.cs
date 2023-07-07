@@ -18,4 +18,5 @@ public partial class Song : EntityBase
     public virtual ICollection<Playlist> Playlists { get; set; } = new List<Playlist>();
 
     public virtual ICollection<UserSongEvent> UserSongEvents { get; set; } = new List<UserSongEvent>();
+    public virtual SongData? SongDataNavigation { get; set; }
 }

@@ -7,4 +7,4 @@ using System.Threading.Tasks;
 
 namespace MusicApp.Contracts.Request;
 
-public record CreateAlbumRequest(string name,string[]? artists,IFormFile? image);
+public record CreateAlbumRequest(string name,string[]? artists,string? image);

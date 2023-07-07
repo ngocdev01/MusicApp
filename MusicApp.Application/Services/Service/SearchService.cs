@@ -17,18 +17,21 @@ public class SearchService : ISearchService
     IRepository<Album> _albumRepository;
     IRepository<Playlist> _playlistRepository;
     IRepository<Genre> _genreRepository;
+    IFileStorageAdapter _fileStorageAdapter;
 
     public SearchService(IRepository<Song> songRepository,
                          IRepository<Artist> artistRepository,
                          IRepository<Album> albumRepository,
                          IRepository<Playlist> playlistRepository,
-                         IRepository<Genre> genreRepository)
+                         IRepository<Genre> genreRepository,
+                         IFileStorageAdapter fileStorageAdapter)
     {
         _songRepository = songRepository;
         _artistRepository = artistRepository;
         _albumRepository = albumRepository;
         _playlistRepository = playlistRepository;
         _genreRepository = genreRepository;
+        _fileStorageAdapter = fileStorageAdapter;
     }
 
     public async Task<IEnumerable<SongResult>> SearchSong(string keyword, int? take = null, int? skip = null)
@@ -38,7 +41,7 @@ public class SearchService : ISearchService
           skip != null ? (int)skip : 0, take != null ? (int)take : 100);
 
 
-        return songs.Select(a => new SongResult(a));
+        return songs.Select(a => new SongResult(a, _fileStorageAdapter));
     }
     public async Task<IEnumerable<AlbumInfo>> SearchAlbum(string keyword,int? take = null,int? skip = null)
     {
@@ -47,7 +50,7 @@ public class SearchService : ISearchService
            skip != null ? (int)skip : 0, take != null ? (int)take : 100);
 
 
-        return albums.Select(a => new AlbumInfo(a));
+        return albums.Select(a => new AlbumInfo(a,_fileStorageAdapter));
 
     }
 
@@ -71,7 +74,7 @@ public class SearchService : ISearchService
         List<PlaylistResult> results = new List<PlaylistResult>();
         foreach (var playlist in playlists)
         {
-            results.Add(new PlaylistResult(playlist));
+            results.Add(new PlaylistResult(playlist,_fileStorageAdapter));
         }
         return results;
     }

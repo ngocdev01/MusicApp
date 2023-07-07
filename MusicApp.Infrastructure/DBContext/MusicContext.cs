@@ -16,12 +16,7 @@ public partial class MusicContext : DbContext
        
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlServer("Data Source=(local)\\SQLEXPRESS;Initial " +
-                              "Catalog=Music;Integrated Security=True;TrustServerCertificate=True");
-    }
+
 
     public virtual DbSet<Album> Albums { get; set; }
     public virtual DbSet<UserEvent> UserEvent { get; set; }
@@ -187,6 +182,15 @@ public partial class MusicContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<SongData>(entity =>
+        {
+            entity.ToTable("SongData");
+            entity.HasOne(s => s.SongNavigation).WithOne(s => s.SongDataNavigation)
+            .HasForeignKey<Song>(s => s.Id)
+            .HasConstraintName("FK_SongId")
+            .OnDelete(DeleteBehavior.Cascade);
+
+        });
         modelBuilder.Entity<User>(entity =>
         {
             entity.ToTable("User");

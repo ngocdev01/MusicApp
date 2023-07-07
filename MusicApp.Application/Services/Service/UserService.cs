@@ -19,18 +19,21 @@ public class UserService : BaseService, IUserService
     private readonly IRepository<UserAlbumEvent> _albumEventRepository;
     private readonly IRepository<Song> _songRepository;
     private readonly IRepository<Album> _albumRepository;
+    private readonly IFileStorageAdapter _fileStorageAdapter;
 
     public UserService(IRepository<User> userRepository,
                        IRepository<UserSongEvent> songEventRepository,
                        IRepository<Song> songRepository,
                        IRepository<UserAlbumEvent> albumEventRepository,
-                       IRepository<Album> albumRepository)
+                       IRepository<Album> albumRepository,
+                       IFileStorageAdapter fileStorageAdapter)
     {
         _userRepository = userRepository;
         _songEventRepository = songEventRepository;
         _songRepository = songRepository;
         _albumEventRepository = albumEventRepository;
         _albumRepository = albumRepository;
+        _fileStorageAdapter = fileStorageAdapter;
     }
 
     public async Task CreateUser(UserInfo userInfo)
@@ -74,14 +77,14 @@ public class UserService : BaseService, IUserService
         foreach (string s in albumList)
         {
             var album = await GetEntityAsync(_albumRepository, s);
-            results.Add(new AlbumInfo(album));
+            results.Add(new AlbumInfo(album,_fileStorageAdapter));
         }
 
         return results;
 
     }
 
-    public async Task<IEnumerable<SongResult>> GetBestSongInMonth(string id)
+    public async Task<IEnumerable<SongResult>> GetBestSongInMonth(string id,int? skip,int? take)
     {
         var now = DateTime.Now;
         var user =await GetEntityAsync(_userRepository, id);
@@ -92,6 +95,10 @@ public class UserService : BaseService, IUserService
             .Select( s => new {Song = s.Key,Count = s.Count()})
             .OrderByDescending(s => s.Count)
             .Select(s => s.Song);
+        if (skip.HasValue)
+            query = query.Skip(skip.Value);
+        if (take.HasValue)
+            query = query.Take(take.Value);
 
         var songList =await _songEventRepository.GetListAsync(query);
 
@@ -99,7 +106,7 @@ public class UserService : BaseService, IUserService
         foreach (string s in songList)
         {
             var song = await GetEntityAsync(_songRepository, s);
-            results.Add(new SongResult(song));
+            results.Add(new SongResult(song, _fileStorageAdapter));
         }
 
         return results;

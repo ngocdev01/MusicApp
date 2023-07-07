@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using MusicApp.Algorithm;
 using MusicApp.Api.Common.Attribute;
 using MusicApp.Api.Common.Errors;
 using MusicApp.Api.Errors;
@@ -69,6 +70,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddApplication()
                     .AddInfrastructure(builder.Configuration)
+                    .AddAlgorithm(builder.Configuration)
                     .AddSingleton<StorageMode>();
 
 
